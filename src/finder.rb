@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# work only with abs paths
-
-TODO_STRING = 'TODO'
+TODO_REGEX = /TODO/
 
 def find_todos(dir_path)
     find_todos_abs(
@@ -31,4 +29,8 @@ def find_todos_abs(abs_dir_path)
 end
 
 def file_has_todos?(file_path)
+    File
+        .foreach(file_path)
+        .grep(TODO_REGEX)
+        .any?
 end
