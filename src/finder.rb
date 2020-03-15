@@ -12,7 +12,8 @@ end
 
 def find_todos_abs(abs_dir_path)
     result = []
-    Dir.entries(dir_path).each do |next_level_path|
+    Dir.entries(abs_dir_path).each do |subpath|
+        next_level_path = File.join(abs_dir_path, subpath)        # TODO can replace with a map.
         raise "Subpath does not exist? (#{ next_level_path })" unless File.exist?(next_level_path)
         if File.directory?(next_level_path)
             result += find_todos_abs(next_level_path)
