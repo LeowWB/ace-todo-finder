@@ -13,6 +13,7 @@ end
 def find_todos_abs(abs_dir_path)
     result = []
     Dir.entries(abs_dir_path).each do |subpath|
+        next if ['..', '.'].include?(subpath)  # TODO can make this more elegant
         next_level_path = File.join(abs_dir_path, subpath)        # TODO can replace with a map.
         raise "Subpath does not exist? (#{ next_level_path })" unless File.exist?(next_level_path)
         if File.directory?(next_level_path)
