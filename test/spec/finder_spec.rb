@@ -155,6 +155,32 @@ describe Finder do
                 ).to eq files_with_todo.to_set
             end
         end
+
+        context 'given a non-existent directory' do
+            non_existent_dir_path = TEST_CASE_DIR + "non_existent_dir/"
+            it 'raises an exception' do
+                expect do
+                    Finder
+                        .new(non_existent_dir_path)
+                        .find_todos
+                end.to raise_error having_attributes(
+                    message: "The path you provided doesn't exist: #{File.expand_path(non_existent_dir_path)}"
+                )
+            end
+        end
+
+        context 'given a file path (not a directory)' do
+            file_path = TEST_CASE_DIR + "file_with_todo.txt"
+            it 'raises an exception' do
+                expect do
+                    Finder
+                        .new(file_path)
+                        .find_todos
+                end.to raise_error having_attributes(
+                    message: "The path you provided isn't a directory: #{File.expand_path(file_path)}"
+                )
+            end
+        end
     end
 end
 
