@@ -8,6 +8,7 @@ class Finder
         @dir_path = File.expand_path(dir_path)
     end
 
+    # Call this method to begin the process of finding TODOs.
     def find_todos()
         raise "The path you provided doesn't exist: #{@dir_path}" unless File.exist?(@dir_path)
         raise "The path you provided isn't a directory: #{@dir_path}" unless File.directory?(@dir_path)
@@ -15,6 +16,8 @@ class Finder
         Finder.find_todos_abs(@dir_path)
     end
 
+    # Assumption: Provided path is absolute.
+    # Will return array of absolute paths.
     def self.find_todos_abs(abs_dir_path)
         result = []
         Dir.children(abs_dir_path).each do |subpath|
@@ -35,12 +38,16 @@ class Finder
         result
     end
 
+    # Given a file path, returns whether the file contains TODOs.
+    # Assumption: file_path exists and is a file (not a directory).
     def self.file_has_todos?(file_path)
         any_line_has_todos?(
             File.foreach(file_path)
         )
     end
     
+    # Accepts an enumerator of strings, each representing a line in a file.
+    # Returns true if any string has TODO.
     def self.any_line_has_todos?(lines_enumerator)
         lines_enumerator
             .select(&:valid_encoding?)
