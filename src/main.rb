@@ -6,6 +6,6 @@ if ARGV.length < 1
     exit
 end
 
-ARGV[1..-1].each do |dir_path|
+ARGV.each do |dir_path|
     puts(find_todos(dir_path))
 end
