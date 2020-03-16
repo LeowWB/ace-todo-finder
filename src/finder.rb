@@ -3,6 +3,7 @@
 TODO_REGEX = /TODO/
 
 def find_todos(dir_path)
+    # TODO check if valid path
     find_todos_abs(
         File.expand_path(
             dir_path

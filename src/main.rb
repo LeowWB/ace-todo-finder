@@ -1,8 +1,9 @@
 load "finder.rb"
 
 if ARGV.length < 1
+    # TODO make msg nicer
     puts("Missing directory argument(s)")
-    # TODO exit
+    exit
 end
 
 ARGV[1..-1].each do |dir_path|
