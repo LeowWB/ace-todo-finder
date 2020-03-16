@@ -5,18 +5,14 @@ class Finder
     TODO_REGEX = /TODO/
 
     def initialize(dir_path)
-        @dir_path = dir_path
+        @dir_path = File.expand_path(dir_path)
     end
 
     def find_todos()
         raise "The path you provided doesn't exist: #{@dir_path}" unless File.exist?(@dir_path)
         raise "The path you provided isn't a directory: #{@dir_path}" unless File.directory?(@dir_path)
 
-        Finder.find_todos_abs(
-            File.expand_path(
-                @dir_path
-            )
-        )
+        Finder.find_todos_abs(@dir_path)
     end
 
     def self.find_todos_abs(abs_dir_path)
