@@ -3,7 +3,8 @@
 TODO_REGEX = /TODO/
 
 def find_todos(dir_path)
-    # TODO check if valid path
+    raise "The path you provided doesn't exist: #{dir_path}" unless File.exist?(dir_path)
+    raise "The path you provided isn't a directory: #{dir_path}" unless File.directory?(dir_path)
     find_todos_abs(
         File.expand_path(
             dir_path
