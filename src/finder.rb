@@ -12,14 +12,14 @@ class Finder
         raise "The path you provided doesn't exist: #{@dir_path}" unless File.exist?(@dir_path)
         raise "The path you provided isn't a directory: #{@dir_path}" unless File.directory?(@dir_path)
 
-        find_todos_abs(
+        Finder.find_todos_abs(
             File.expand_path(
                 @dir_path
             )
         )
     end
 
-    def find_todos_abs(abs_dir_path)
+    def self.find_todos_abs(abs_dir_path)
         result = []
         Dir.children(abs_dir_path).each do |subpath|
             next if subpath[0] == '.'
@@ -39,13 +39,13 @@ class Finder
         result
     end
 
-    def file_has_todos?(file_path)
+    def self.file_has_todos?(file_path)
         any_line_has_todos?(
             File.foreach(file_path)
         )
     end
     
-    def any_line_has_todos?(lines_enumerator)
+    def self.any_line_has_todos?(lines_enumerator)
         lines_enumerator
             .grep(TODO_REGEX)
             .any?
