@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'set'
 require './src/finder.rb'
 
 TEST_CASE_DIR = "./test/test_cases/"
@@ -121,6 +122,37 @@ describe Finder do
                         TEST_CASE_DIR + "invalid_utf8_file"
                     )
                 end.not_to raise_error
+            end
+        end
+    end
+
+    describe 'find_todos' do
+        context 'given a directory' do
+            it 'returns array of files containing "TODO"' do
+                file_with_todo = [File.expand_path(
+                    TEST_CASE_DIR + "directory/file_with_todo.txt"
+                )]
+                expect(Finder
+                        .new(TEST_CASE_DIR + "directory/")
+                        .find_todos
+                ).to eq file_with_todo
+            end
+        end
+
+        context 'given a directory with nested subdirectories' do
+            it 'returns array of files containing "TODO"' do
+                files_with_todo = [
+                    "directory/file_with_todo.txt",
+                    "file_with_todo.txt"
+                ].map do |path|
+                    File.expand_path(TEST_CASE_DIR + path)
+                end
+
+                expect(Finder
+                        .new(TEST_CASE_DIR)
+                        .find_todos
+                        .to_set
+                ).to eq files_with_todo.to_set
             end
         end
     end
