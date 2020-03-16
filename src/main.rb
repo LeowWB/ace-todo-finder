@@ -1,8 +1,9 @@
 load "finder.rb"
 
+MISSING_ARG_ERR_MSG = "Missing directory argument(s).\nExample usage:\nruby main.rb './directory_name'"
+
 if ARGV.length < 1
-    # TODO make msg nicer
-    puts("Missing directory argument(s)")
+    puts(MISSING_ARG_ERR_MSG)
     exit
 end
 
