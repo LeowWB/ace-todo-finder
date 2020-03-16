@@ -8,5 +8,6 @@ if ARGV.length < 1
 end
 
 ARGV.each do |dir_path|
-    puts(find_todos(dir_path))
+    finder = Finder.new(dir_path)
+    puts(finder.find_todos())
 end
