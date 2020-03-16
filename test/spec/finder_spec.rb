@@ -7,7 +7,7 @@ describe Finder do
     describe '.any_line_has_todos?' do
         context 'given empty enumerator' do
             it 'returns false' do
-                test_with_array(
+                any_line_has_todos_test_helper(
                     [],
                     false
                 )
@@ -17,7 +17,7 @@ describe Finder do
         context 'given singleton enumerator' do
             context 'no TODO' do
                 it 'returns false' do
-                    test_with_array(
+                    any_line_has_todos_test_helper(
                         ['the quick brown fox jumps over the lazy dog'],
                         false
                     )
@@ -27,7 +27,7 @@ describe Finder do
             context 'with TODO' do
                 context 'surrounded by text' do
                     it 'returns true' do
-                        test_with_array(
+                        any_line_has_todos_test_helper(
                             ['the quick brown fox jumps TODO over the lazy dog'],
                             true
                         )
@@ -36,7 +36,7 @@ describe Finder do
 
                 context 'at start of line' do
                     it 'returns true' do
-                        test_with_array(
+                        any_line_has_todos_test_helper(
                             ['TODO over the lazy dog'],
                             true
                         )
@@ -45,7 +45,7 @@ describe Finder do
 
                 context 'at end of line' do
                     it 'returns true' do
-                        test_with_array(
+                        any_line_has_todos_test_helper(
                             ['the quick brown fox jumps TODO'],
                             true
                         )
@@ -54,7 +54,7 @@ describe Finder do
 
                 context 'as only content in line' do
                     it 'returns true' do
-                        test_with_array(
+                        any_line_has_todos_test_helper(
                             ['TODO'],
                             true
                         )
@@ -66,7 +66,7 @@ describe Finder do
         context 'given enumerator with multiple elements' do
             context 'with no TODO' do
                 it 'returns false' do
-                    test_with_array(
+                    any_line_has_todos_test_helper(
                         ['the', 'quick', 'brown'],
                         false
                     )
@@ -75,7 +75,7 @@ describe Finder do
 
             context 'with all TODO' do
                 it 'returns true' do
-                    test_with_array(
+                    any_line_has_todos_test_helper(
                         ['theTODO', 'TODO quick', 'brTODOown'],
                         true
                     )
@@ -84,7 +84,7 @@ describe Finder do
 
             context 'with one TODO' do
                 it 'returns true' do
-                    test_with_array(
+                    any_line_has_todos_test_helper(
                         ['the', 'quick', 'brTODOown', 'fox'],
                         true
                     )
@@ -94,7 +94,7 @@ describe Finder do
     end
 end
 
-def test_with_array(array, expected)
+def any_line_has_todos_test_helper (array, expected)
     result = Finder.any_line_has_todos?(array.each)
     expect(result).to be expected
 end
