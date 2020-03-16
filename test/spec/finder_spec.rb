@@ -181,6 +181,16 @@ describe Finder do
                 )
             end
         end
+
+        context 'given a directory with no TODOs at all' do
+            dir_path = TEST_CASE_DIR + "directory/directory_without_todos"
+            it 'returns an empty array' do
+                expect(Finder
+                        .new(dir_path)
+                        .find_todos
+                ).to eq []
+            end
+        end
     end
 end
 
