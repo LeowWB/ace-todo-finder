@@ -47,6 +47,7 @@ class Finder
     
     def self.any_line_has_todos?(lines_enumerator)
         lines_enumerator
+            .select(&:valid_encoding?)
             .grep(TODO_REGEX)
             .any?
     end
