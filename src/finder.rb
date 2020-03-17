@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-TODO_REGEX = /TODO/.freeze
-ERR_PATH_DOESNT_EXIST = "The path you provided doesn't exist: "
-ERR_PATH_NOT_DIR = "The path you provided isn't a directory: "
+require './src/constants.rb'
 
 # Main class responsible for performing the TODO-finding
 class Finder

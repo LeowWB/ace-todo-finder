@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-load './src/finder.rb'
-
-MISSING_ARG_ERR_MSG = 'Missing directory argument(s).\n' \
-  "Example usage:\nruby main.rb './directory_name'"
+require './src/constants.rb'
+require './src/finder.rb'
 
 if ARGV.empty?
-  puts(MISSING_ARG_ERR_MSG)
+  puts(ERR_MISSING_ARG)
   exit
 end
 
