@@ -17,7 +17,7 @@ describe Finder do
     end
 
     context 'given singleton enumerator' do
-      context 'no TODO' do
+      context 'with no TODO' do
         it 'returns false' do
           any_line_has_todos_test_helper(
             ['the quick brown fox jumps over the lazy dog'],
