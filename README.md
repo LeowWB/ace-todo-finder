@@ -11,7 +11,9 @@ This repository contains a Ruby script that, when given a directory, produces a 
 4. Execute `gem install bundler`
 5. Execute `bundler install`
 
-And you're done!
+If you get a success message, you're done! Otherwise, if you get the following error message: `Can't find gem bundler (>= 0.a) with executable bundle (Gem::GemNotFoundException)` after step 5, then:
+1. Execute `gem update --system`
+2. Execute `bundle update --bundler`
 
 ## Usage 
 1. Navigate to the repository root directory (`ace-todo-finder`) using your shell
