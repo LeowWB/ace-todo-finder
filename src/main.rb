@@ -1,13 +1,16 @@
-load "./src/finder.rb"
+# frozen_string_literal: true
 
-MISSING_ARG_ERR_MSG = "Missing directory argument(s).\nExample usage:\nruby main.rb './directory_name'"
+load './src/finder.rb'
 
-if ARGV.length < 1
-    puts(MISSING_ARG_ERR_MSG)
-    exit
+MISSING_ARG_ERR_MSG = 'Missing directory argument(s).\n' \
+  "Example usage:\nruby main.rb './directory_name'"
+
+if ARGV.empty?
+  puts(MISSING_ARG_ERR_MSG)
+  exit
 end
 
 ARGV.each do |dir_path|
-    finder = Finder.new(dir_path)
-    puts(finder.find_todos())
+  finder = Finder.new(dir_path)
+  puts(finder.find_todos)
 end
