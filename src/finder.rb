@@ -13,29 +13,24 @@ class Finder
         raise "The path you provided doesn't exist: #{@dir_path}" unless File.exist?(@dir_path)
         raise "The path you provided isn't a directory: #{@dir_path}" unless File.directory?(@dir_path)
 
-        Finder.find_todos_abs(@dir_path)
+        Finder.find_todos_in_dir(@dir_path)
     end
 
-    # Assumption: Provided path is absolute.
+    # Assumption: Provided path is absolute, and a directory (not a file).
     # Will return array of absolute paths.
-    def self.find_todos_abs(abs_dir_path)
-        result = []
-        Dir.children(abs_dir_path).each do |subpath|
-            next if subpath[0] == '.'
-            next_level_path = File.join(abs_dir_path, subpath)        # TODO can replace with a map.
-            raise "Subpath does not exist? (#{ next_level_path })" unless File.exist?(next_level_path)
-            if File.directory?(next_level_path)
-                result += find_todos_abs(next_level_path)
-            elsif File.file?(next_level_path)
-                result.append(
+    def self.find_todos_in_dir(abs_dir_path)
+        Dir.children(abs_dir_path)
+            .reject do |subpath| subpath[0] == '.' end
+            .map do |subpath| File.join(abs_dir_path, subpath) end
+            .select do |next_level_path| File.exists?(next_level_path) end # should not be needed, but for good measure
+            .flat_map do |next_level_path|
+                if File.directory?(next_level_path)
+                    find_todos_in_dir(next_level_path)
+                elsif File.file?(next_level_path) && file_has_todos?(next_level_path)
                     next_level_path
-                ) if file_has_todos?(next_level_path)
-            else
-                raise "Path is neither directory nor file? (#{next_level_path})"
+                end
             end
-        end
-
-        result
+            .reject do |result_path| result_path == nil end
     end
 
     # Given a file path, returns whether the file contains TODOs.
