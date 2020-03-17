@@ -31,3 +31,4 @@ To run all tests:
 ## Notes
 * The script, by design, ignores all files and directories which begin with `.` (such as `.git` or `.gitignore`)
 * The script only finds instances of the string `TODO` - strings such as `todo`, while similar, will not be flagged
+* If more than one argument is provided, the script will run once over each argument
