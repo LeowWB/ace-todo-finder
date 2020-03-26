@@ -217,6 +217,59 @@ describe Finder do
       end
     end
   end
+
+  describe 'find_all_hashes' do
+    context 'given string with no hashes' do
+      it 'returns empty array' do
+        expect(
+          Finder.find_all_hashes("hello world")
+        ).to eq []
+      end
+    end
+
+    context 'given string with one hash' do
+      it 'returns singleton array' do
+        expect(
+          Finder.find_all_hashes("hello#world")
+        ).to eq [5]
+      end
+    end
+
+    context 'given string with multiple hashes' do
+      it 'returns array' do
+        expect(
+          Finder.find_all_hashes("hello#world#")
+        ).to eq [5,11]
+      end
+    end
+  end
+
+  describe 'find_all_string_lits' do
+    context 'given string with no string lits' do
+      it 'returns empty array' do
+        expect(
+          Finder.find_all_string_lits("hello world")
+        ).to eq []
+      end
+    end
+
+    context 'given string with one string lit' do
+      it 'returns singleton array' do
+        expect(
+          Finder.find_all_string_lits("hello 'world' hello")
+        ).to eq [[6,12]]
+      end
+    end
+
+    context 'given string with multiple string lits' do
+      it 'returns array' do
+        expect(
+          Finder.find_all_string_lits("hello 'world' hello 'world'")
+        ).to eq [[6,12],[20,26]]
+      end
+    end
+  end
+
 end
 
 def file_has_todos_helper(file_path, expected)
