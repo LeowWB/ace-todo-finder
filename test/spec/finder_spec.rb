@@ -270,6 +270,40 @@ describe Finder do
     end
   end
 
+  describe 'line_to_comment' do
+    context 'given line with no comment' do
+      it 'returns empty string' do
+        expect(
+          Finder.line_to_comment('Hello world')
+        ).to eq ''
+      end
+    end
+
+    context 'given line with simple comment' do
+      it 'returns the commented portion' do
+        expect(
+          Finder.line_to_comment('Hello world #hello')
+        ).to eq '#hello'
+      end
+    end
+
+    context 'given line with hashes in string literal' do
+      it 'ignores the string literal' do
+        expect(
+          Finder.line_to_comment('Hello world "#hello" #hi')
+        ).to eq '#hi'
+      end
+    end
+
+    context 'given line with string literal in comment' do
+      it 'returns the comment anyway' do
+        expect(
+          Finder.line_to_comment('Hello world #hell"o"')
+        ).to eq '#hell"o"'
+      end
+    end
+  end
+
 end
 
 def file_has_todos_helper(file_path, expected)
