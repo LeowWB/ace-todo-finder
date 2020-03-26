@@ -91,7 +91,7 @@ class Finder
   # given a string representing a code line, return indices of string literals
   def self.find_all_string_lits(str)
     rv = []
-    cur_str_ind = []
+    cur_str_ind = -1
     in_str = false
     str_delim = "'"
     (0..str.length - 1).each do |i|
@@ -99,14 +99,13 @@ class Finder
       if in_str
         if char == str_delim
           in_str = false
-          cur_str_ind.append(i)
-          rv.append(cur_str_ind)
-          cur_str_ind = []
+          rv.append([cur_str_ind, i])
+          cur_str_ind = -1
         end
       elsif ["'", '"'].include?(char)
         in_str = true
         str_delim = char
-        cur_str_ind.append(i)
+        cur_str_ind = i
       end
     end
     rv
@@ -116,9 +115,7 @@ class Finder
   def self.find_all_hashes(str)
     rv = []
     (0..str.length - 1).each do |i|
-      if str[i] == '#'
-        rv.append(i)
-      end
+      rv.append(i) if str[i] == '#'
     end
     rv
   end
