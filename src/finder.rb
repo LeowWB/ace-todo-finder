@@ -74,6 +74,10 @@ class Finder
     end
   end
 
+  # given a string that represents a line of code with a comment,
+  # finds the point in the code where the comment begins.
+  # input: 2 arrays representing the indices of hashes and string literals
+  # output: the index of the first hash that's not in a string literal
   def self.find_comment_index(hash_indices, str_indices)
     hash_indices.each do |i|
       is_in_str = false
@@ -85,10 +89,12 @@ class Finder
       end
       return i unless is_in_str
     end
-    nil # not needed, but for explicitness
+    nil # explicitly return nil
   end
 
   # given a string representing a code line, return indices of string literals
+  # returned value will be array of arrays; each sub-array has 2 elements:
+  # the start and end indices of the string literals
   def self.find_all_string_lits(str)
     rv = []
     cur_str_ind = -1
