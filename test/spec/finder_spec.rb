@@ -279,7 +279,7 @@ describe Finder do
       end
     end
 
-    context 'given arrays that represent hashes but no comments' do
+    context 'given arrays that represent str with hashes, no comments' do
       it 'returns nil' do
         expect(
           Finder.find_comment_index([1],[[0,2]])
@@ -298,7 +298,7 @@ describe Finder do
     context 'given arrays that represent line with a comment and multiple other hashes' do
       it 'returns the index of the hash in the comment' do
         expect(
-          Finder.find_comment_index([1,5,8],[[0,2],[4,7],[9,10]])
+          Finder.find_comment_index([1,5,8,11],[[0,2],[4,7],[9,10]])
         ).to eq 8
       end
     end
