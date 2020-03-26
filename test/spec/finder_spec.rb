@@ -270,6 +270,40 @@ describe Finder do
     end
   end
 
+  describe 'find_comment_index' do
+    context 'given empty arrays' do
+      it 'returns nil' do
+        expect(
+          Finder.find_comment_index([],[])
+        ).to eq nil
+      end
+    end
+
+    context 'given arrays that represent hashes but no comments' do
+      it 'returns nil' do
+        expect(
+          Finder.find_comment_index([1],[[0,2]])
+        ).to eq nil
+      end
+    end
+    
+    context 'given arrays that represent line with a comment' do
+      it 'returns the index of the hash' do
+        expect(
+          Finder.find_comment_index([3],[[0,2]])
+        ).to eq 3
+      end
+    end
+
+    context 'given arrays that represent line with a comment and multiple other hashes' do
+      it 'returns the index of the hash in the comment' do
+        expect(
+          Finder.find_comment_index([1,5,8],[[0,2],[4,7],[9,10]])
+        ).to eq 8
+      end
+    end
+  end
+
   describe 'line_to_comment' do
     context 'given line with no comment' do
       it 'returns empty string' do
