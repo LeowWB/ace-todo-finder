@@ -30,7 +30,7 @@ describe Finder do
         context 'surrounded by text' do
           it 'returns true' do
             any_line_has_todos_test_helper(
-              ['the quick brown fox jumps TODO over the lazy dog'],
+              ['the quick brown fox jumps #TODO over the lazy dog'],
               true
             )
           end
@@ -39,7 +39,7 @@ describe Finder do
         context 'at start of line' do
           it 'returns true' do
             any_line_has_todos_test_helper(
-              ['TODO over the lazy dog'],
+              ['#TODO over the lazy dog'],
               true
             )
           end
@@ -48,7 +48,7 @@ describe Finder do
         context 'at end of line' do
           it 'returns true' do
             any_line_has_todos_test_helper(
-              ['the quick brown fox jumps TODO'],
+              ['the quick brown fox jumps #TODO'],
               true
             )
           end
@@ -57,7 +57,16 @@ describe Finder do
         context 'as only content in line' do
           it 'returns true' do
             any_line_has_todos_test_helper(
-              ['TODO'],
+              ['#TODO'],
+              true
+            )
+          end
+        end
+
+        context 'not immediately following hash' do
+          it 'returns true' do
+            any_line_has_todos_test_helper(
+              ['hello', '#worldTODO'],
               true
             )
           end
@@ -75,10 +84,19 @@ describe Finder do
         end
       end
 
+      context 'with TODO but not in a comment' do
+        it 'returns false' do
+          any_line_has_todos_test_helper(
+            %w[the quick brown TODO],
+            false
+          )
+        end
+      end
+
       context 'with all TODO' do
         it 'returns true' do
           any_line_has_todos_test_helper(
-            %w[theTODO TODOquick brTODOown],
+            ["the#TODO","#TODOquick","br#TODOown"],
             true
           )
         end
@@ -87,7 +105,7 @@ describe Finder do
       context 'with one TODO' do
         it 'returns true' do
           any_line_has_todos_test_helper(
-            %w[the quick brTODOown fox],
+            ["the", "quick", "br#TODOown", "fox"],
             true
           )
         end
