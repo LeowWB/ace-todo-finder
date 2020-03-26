@@ -52,7 +52,76 @@ class Finder
   def self.any_line_has_todos?(lines_enumerator)
     lines_enumerator
       .select(&:valid_encoding?)
+      .map do |line|
+        Finder.line_to_comment(line)
+      end
       .grep(TODO_REGEX)
       .any?
+  end
+
+  # given a line of code, returns only the commented portion of the line
+  def self.line_to_comment(line)
+    unless line.include?("#")
+      ''
+    else
+      hash_indices = Finder.find_all_hashes(line)
+      str_indices = Finder.find_all_string_lits(line)
+      comment_index = Finder.find_comment_index(hash_indices, str_indices)
+      
+      if comment_index
+        line[comment_index..-1]
+      else
+        ''
+      end
+    end
+  end
+
+  def self.find_comment_index(hash_indices, str_indices)
+    hash_indices.each do |i|
+      is_in_str = false
+      str_indices.each do |j|
+        if i >= j[0] && i <= j[1]
+          is_in_str = true
+          break
+        end
+      end
+      return i unless is_in_str
+    end
+    nil
+  end
+
+  # given a string representing a line of code, return indices of string literals within that string
+  def self.find_all_string_lits(str)
+    rv = []
+    cur_str_ind = []
+    in_str = false
+    str_delim = "'"
+    (0..str.length-1).each do |i|
+      char = str[i]
+      if in_str
+        if char == str_delim
+          in_str = false
+          cur_str_ind.append(i)
+          rv.append(cur_str_ind)
+          cur_str_ind = []
+        end
+      elsif ["'", '"'].include?(char)
+        in_str = true
+        str_delim = char
+        cur_str_ind.append(i)
+      end
+    end
+    rv
+  end
+
+  # given a string, returns the indices of all hashes in the string
+  def self.find_all_hashes(str)
+    rv = []
+    (0..str.length-1).each do |i|
+      if str[i] == "#"
+        rv.append(i)
+      end
+    end
+    rv
   end
 end
