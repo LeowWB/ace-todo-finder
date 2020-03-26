@@ -161,7 +161,11 @@ describe Finder do
       it 'returns array of files containing "TODO"' do
         files_with_todo = [
           'directory/file_with_todo.txt',
-          'file_with_todo.txt'
+          'file_with_todo.txt',
+          'ruby_files/file_multiple_hashes.rb',
+          'ruby_files/file_todo_comment.rb',
+          'ruby_files/file_todo_middle_of_comment.rb',
+          'ruby_files/file_todo_str_lit_in_comment.rb'
         ].map do |path|
           File.expand_path(TEST_CASE_DIR + path)
         end
